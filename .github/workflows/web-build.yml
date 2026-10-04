@@ -158,6 +158,11 @@ jobs:
             \( -iname '*SDL2*' -o -iname 'SDL.h' -o -iname 'SDL2Config.cmake' -o -iname 'sdl2-config.cmake' \) \
             2>/dev/null | head -100
 
+          echo "Searching for SDL2 CMake files:"
+          find "$EMSDK/upstream/emscripten" \
+            \( -iname 'SDL2Config.cmake' -o -iname 'sdl2-config.cmake' \) \
+            2>/dev/null
+
           mkdir irrlicht-src/build
           cd irrlicht-src/build
 
