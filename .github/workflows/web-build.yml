@@ -143,32 +143,13 @@ jobs:
 
           echo "Checking dependencies:"
           ls -l "$GITHUB_WORKSPACE/zlib/lib/libz.a"
-          ls -l "$GITHUB_WORKSPACE/zlib/include/zlib.h"
           ls -l "$GITHUB_WORKSPACE/libjpeg/lib/libjpeg.a"
-          ls -l "$GITHUB_WORKSPACE/libjpeg/include/jpeglib.h"
           ls -l "$GITHUB_WORKSPACE/libpng/lib/libpng18.a"
-          ls -l "$GITHUB_WORKSPACE/libpng/include/png.h"
 
-          mkdir irrlicht-src/build
-          cd irrlicht-src/build
+          echo "Searching for REVISION_SANITY_CHECK:"
+          grep -R "REVISION_SANITY_CHECK" -n irrlicht-src
 
-          emcmake cmake .. \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=OFF \
-            -DZLIB_LIBRARY="$GITHUB_WORKSPACE/zlib/lib/libz.a" \
-            -DZLIB_INCLUDE_DIR="$GITHUB_WORKSPACE/zlib/include" \
-            -DJPEG_LIBRARY="$GITHUB_WORKSPACE/libjpeg/lib/libjpeg.a" \
-            -DJPEG_INCLUDE_DIR="$GITHUB_WORKSPACE/libjpeg/include" \
-            -DPNG_LIBRARY="$GITHUB_WORKSPACE/libpng/lib/libpng18.a" \
-            -DPNG_PNG_INCLUDE_DIR="$GITHUB_WORKSPACE/libpng/include"
-
-          emmake cmake --build . --parallel
-
-          cd ../..
-          mkdir -p irrlicht/include irrlicht/lib
-
-          cp -a irrlicht-src/include/* irrlicht/include/
-          cp irrlicht-src/build/libIrrlicht.a irrlicht/lib/
+          exit 1
 
       - name: Configure
         run: |
