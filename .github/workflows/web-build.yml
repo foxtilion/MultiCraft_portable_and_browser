@@ -47,7 +47,7 @@ jobs:
 
       - name: Build libjpeg for WebAssembly
         run: |
-          git clone --depth 1 --single-branch --verbose https://github.com/minetest/irrlicht.git irrlicht-src
+          git clone --depth 1 https://github.com/libjpeg-turbo/libjpeg-turbo libjpeg-src
           mkdir libjpeg-src/build
           cd libjpeg-src/build
 
