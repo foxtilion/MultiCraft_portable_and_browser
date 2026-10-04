@@ -163,6 +163,10 @@ jobs:
             \( -iname 'SDL2Config.cmake' -o -iname 'sdl2-config.cmake' \) \
             2>/dev/null
 
+            echo "=== Inhalt der SDL2-CMake-Datei ==="
+            cat "$EMSDK/upstream/emscripten/tools/ports/sdl2/sdl2-config.cmake"
+            echo "=== Ende der SDL2-CMake-Datei ==="
+
           mkdir irrlicht-src/build
           cd irrlicht-src/build
 
