@@ -167,16 +167,16 @@ jobs:
           cd irrlicht-src/build
 
           emcmake cmake .. \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=OFF \
-            -DZLIB_LIBRARY="$GITHUB_WORKSPACE/zlib/lib/libz.a" \
-            -DZLIB_INCLUDE_DIR="$GITHUB_WORKSPACE/zlib/include" \
-            -DJPEG_LIBRARY="$GITHUB_WORKSPACE/libjpeg/lib/libjpeg.a" \
-            -DJPEG_INCLUDE_DIR="$GITHUB_WORKSPACE/libjpeg/include" \
-            -DPNG_LIBRARY="$GITHUB_WORKSPACE/libpng/lib/libpng18.a" \
-            -DPNG_PNG_INCLUDE_DIR="$GITHUB_WORKSPACE/libpng/include" \
-            -DOPENGLES2_LIBRARY="$EMSDK/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libGL.a"
-
+          -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_SHARED_LIBS=OFF \
+          -DCMAKE_PREFIX_PATH="$EMSDK/upstream/emscripten/tools/ports/sdl2" \
+          -DZLIB_LIBRARY="$GITHUB_WORKSPACE/zlib/lib/libz.a" \
+          -DZLIB_INCLUDE_DIR="$GITHUB_WORKSPACE/zlib/include" \
+          -DJPEG_LIBRARY="$GITHUB_WORKSPACE/libjpeg/lib/libjpeg.a" \
+          -DJPEG_INCLUDE_DIR="$GITHUB_WORKSPACE/libjpeg/include" \
+          -DPNG_LIBRARY="$GITHUB_WORKSPACE/libpng/lib/libpng18.a" \
+          -DPNG_PNG_INCLUDE_DIR="$GITHUB_WORKSPACE/libpng/include" \
+          -DOPENGLES2_LIBRARY="$EMSDK/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libGL.a"
           emmake cmake --build . --parallel
 
           cd ../..
