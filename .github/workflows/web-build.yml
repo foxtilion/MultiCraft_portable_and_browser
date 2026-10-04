@@ -149,14 +149,19 @@ jobs:
           ls -l "$GITHUB_WORKSPACE/libpng/lib/libpng18.a"
           ls -l "$GITHUB_WORKSPACE/libpng/include/png.h"
 
-          mkdir irrlicht-src/build
-          cd irrlicht-src/build
-
-                    echo "Emscripten GLES libraries:"
+          echo "Emscripten GLES libraries:"
           find "$EMSDK/upstream/emscripten/cache/sysroot/lib" \
             -iname '*GLES*' -o -iname '*gl*' | head -50
 
-                    emcmake cmake .. \
+          echo "Emscripten SDL2 files:"
+          find "$EMSDK/upstream/emscripten/cache/sysroot" \
+            \( -iname '*SDL2*' -o -iname 'SDL.h' -o -iname 'SDL2Config.cmake' -o -iname 'sdl2-config.cmake' \) \
+            2>/dev/null | head -100
+
+          mkdir irrlicht-src/build
+          cd irrlicht-src/build
+
+          emcmake cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
             -DBUILD_SHARED_LIBS=OFF \
             -DZLIB_LIBRARY="$GITHUB_WORKSPACE/zlib/lib/libz.a" \
@@ -171,7 +176,6 @@ jobs:
 
           cd ../..
           mkdir -p irrlicht/include irrlicht/lib
-
           cp -a irrlicht-src/include/* irrlicht/include/
           cp irrlicht-src/build/libIrrlicht.a irrlicht/lib/
 
