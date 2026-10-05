@@ -172,6 +172,16 @@ jobs:
 
           echo "=== Irrlicht src/CMakeLists.txt around ZLIB ==="
           grep -n -B 10 -A 15 "find_package(ZLIB" ../src/CMakeLists.txt
+          echo "=== TEST: Variablen ==="
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          echo "ZLIB_LIBRARY=$GITHUB_WORKSPACE/zlib/lib/libz.a"
+          echo "ZLIB_INCLUDE_DIR=$GITHUB_WORKSPACE/zlib/include"
+          echo "JPEG_LIBRARY=$GITHUB_WORKSPACE/libjpeg/lib/libjpeg.a"
+          echo "PNG_LIBRARY=$GITHUB_WORKSPACE/libpng/lib/libpng18.a"
+
+          echo "=== TEST: Dateien ==="
+          ls -l "$GITHUB_WORKSPACE/zlib/lib/libz.a"
+          ls -l "$GITHUB_WORKSPACE/zlib/include/zlib.h"
 
           emcmake cmake .. \
           -DCMAKE_BUILD_TYPE=Release \
@@ -184,7 +194,8 @@ jobs:
           -DJPEG_INCLUDE_DIR="$GITHUB_WORKSPACE/libjpeg/include" \
           -DPNG_LIBRARY="$GITHUB_WORKSPACE/libpng/lib/libpng18.a" \
           -DPNG_PNG_INCLUDE_DIR="$GITHUB_WORKSPACE/libpng/include" \
-          -DOPENGLES2_LIBRARY="$EMSDK/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libGL.a"
+          -DOPENGLES2_LIBRARY="$EMSDK/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libGL.a" \
+          -DCMAKE_MESSAGE_LOG_LEVEL=DEBUG
           emmake cmake --build . --parallel
 
           cd ../..
