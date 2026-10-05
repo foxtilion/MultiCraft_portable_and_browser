@@ -196,6 +196,17 @@ jobs:
           ls -l "$GITHUB_WORKSPACE/zlib/lib/libz.a"
           ls -l "$GITHUB_WORKSPACE/zlib/include/zlib.h"
 
+          echo "=== SDL2 version header ==="
+          cat "$EMSDK/upstream/emscripten/cache/sysroot/include/SDL/SDL_version.h" | head -80
+
+          echo "=== SDL2 include directories ==="
+          ls -ld "$EMSDK/upstream/emscripten/cache/sysroot/include/SDL2" || true
+          ls -ld "$EMSDK/upstream/emscripten/cache/sysroot/include/SDL" || true
+
+          echo "=== SDL2 version macros ==="
+          grep -n "SDL_VERSION" \
+            "$EMSDK/upstream/emscripten/cache/sysroot/include/SDL/SDL_version.h" | head -30
+
           emcmake cmake .. \
           -DCMAKE_BUILD_TYPE=Release \
           -DBUILD_SHARED_LIBS=OFF \
