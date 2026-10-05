@@ -171,6 +171,7 @@ jobs:
           cd irrlicht-src/build
 
           echo "=== Irrlicht src/CMakeLists.txt around ZLIB ==="
+          echo "=== Irrlicht src/CMakeLists.txt around SDL2 version check ==="
           grep -n -B 10 -A 15 "find_package(ZLIB" ../src/CMakeLists.txt
           echo "=== TEST: Variablen ==="
           echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
