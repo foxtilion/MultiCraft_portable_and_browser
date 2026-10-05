@@ -168,6 +168,17 @@ jobs:
             echo "=== Ende der SDL2-CMake-Datei ==="
 
           mkdir irrlicht-src/build
+          echo "=== Searching for SDL_version.h ==="
+          find "$EMSDK/upstream/emscripten/cache/sysroot" \
+            -name "SDL_version.h" \
+            -print
+
+          echo "=== Searching for SDL2 headers ==="
+          find "$EMSDK/upstream/emscripten/cache/sysroot/include" \
+            -maxdepth 3 \
+            -type f \
+            -name "SDL*.h" \
+            -print | sort
           cd irrlicht-src/build
 
           echo "=== Irrlicht src/CMakeLists.txt around ZLIB ==="
