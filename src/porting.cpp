@@ -65,6 +65,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #endif
 
 #include "config.h"
+#include <cmath>
 #if USE_OPENSSL
 #include <openssl/rand.h>
 #elif defined(__APPLE__)
@@ -95,9 +96,14 @@ bool *signal_handler_killstatus()
 #if !defined(_WIN32) // POSIX
 	#include <signal.h>
 
-void signal_handler(int sig)
+// A signal handler must not lock or allocate, so it only wakes this thread, which logs
+static int g_signal_pipe[2] = { -1, -1 };
+
+static void signal_thread()
 {
-	if (!g_killed) {
+	g_logger.registerThread("Signal");
+	unsigned char sig;
+	while (read(g_signal_pipe[0], &sig, 1) == 1) {
 		if (sig == SIGINT) {
 			dstream << "INFO: signal_handler(): "
 				<< "Ctrl-C pressed, shutting down." << std::endl;
@@ -105,12 +111,14 @@ void signal_handler(int sig)
 			dstream << "INFO: signal_handler(): "
 				<< "got SIGTERM, shutting down." << std::endl;
 		}
+	}
+}
 
-		// Comment out for less clutter when testing scripts
-		/*dstream << "INFO: sigint_handler(): "
-				<< "Printing debug stacks" << std::endl;
-		debug_stacks_print();*/
-
+void signal_handler(int sig)
+{
+	if (!g_killed) {
+		const unsigned char byte = (unsigned char)sig;
+		(void)!write(g_signal_pipe[1], &byte, 1);
 		g_killed = true;
 	} else {
 		(void)signal(sig, SIG_DFL);
@@ -119,6 +127,8 @@ void signal_handler(int sig)
 
 void signal_handler_init(void)
 {
+	if (pipe(g_signal_pipe) == 0)
+		std::thread(signal_thread).detach();
 	(void)signal(SIGINT, signal_handler);
 	(void)signal(SIGTERM, signal_handler);
 }
@@ -637,6 +647,17 @@ void initializePaths()
 bool hasRealKeyboard()
 {
 	return true;
+}
+
+int getMaxRefreshRate()
+{
+#if defined(_IRR_COMPILE_WITH_SDL_DEVICE_)
+	// The desktop mode of the primary display, the current rate rather than the fastest
+	const SDL_DisplayMode *mode = SDL_GetDesktopDisplayMode(SDL_GetPrimaryDisplay());
+	return mode ? std::lround(mode->refresh_rate) : 0;
+#else
+	return 0;
+#endif
 }
 #endif
 
