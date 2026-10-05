@@ -170,6 +170,9 @@ jobs:
           mkdir irrlicht-src/build
           cd irrlicht-src/build
 
+          echo "=== Irrlicht src/CMakeLists.txt around ZLIB ==="
+          grep -n -B 10 -A 15 "find_package(ZLIB" ../src/CMakeLists.txt
+
           emcmake cmake .. \
           -DCMAKE_BUILD_TYPE=Release \
           -DBUILD_SHARED_LIBS=OFF \
