@@ -219,6 +219,23 @@ jobs:
           grep -n "version" \
             "$EMSDK/upstream/emscripten/tools/ports/sdl2/sdl2.py" 2>/dev/null | head -30 || true
 
+
+          echo "=== SDL headers ==="
+          find "$EMSDK/upstream/emscripten/cache/sysroot/include" \
+            -name 'SDL_version.h' -print
+
+          echo "=== SDL version ==="
+          grep -E 'SDL_(MAJOR|MINOR|PATCHLEVEL)_VERSION|SDL_COMPILEDVERSION' \
+            "$EMSDK/upstream/emscripten/cache/sysroot/include/SDL/SDL_version.h" || true
+
+          echo "=== Emscripten SDL port files ==="
+          find "$EMSDK/upstream/emscripten/tools/ports/sdl2" -maxdepth 2 -type f -print
+
+          echo "=== emcc SDL test ==="
+          echo '#include <SDL_version.h>' > /tmp/sdltest.cpp
+          echo 'SDL_COMPILEDVERSION' >> /tmp/sdltest.cpp
+          em++ /tmp/sdltest.cpp -sUSE_SDL=2 -E | grep -E 'SDL_(MAJOR|MINOR|PATCHLEVEL|COMPILEDVERSION)' | head -20
+
           emcmake cmake .. \
           -DCMAKE_BUILD_TYPE=Release \
           -DBUILD_SHARED_LIBS=OFF \
