@@ -207,6 +207,18 @@ jobs:
           grep -n "SDL_VERSION" \
             "$EMSDK/upstream/emscripten/cache/sysroot/include/SDL/SDL_version.h" | head -30
 
+          echo "=== SDL_COMPILEDVERSION ==="
+          grep -n "SDL_COMPILEDVERSION" \
+            "$EMSDK/upstream/emscripten/cache/sysroot/include/SDL/SDL_version.h"
+
+          echo "=== SDL_VERSIONNUM ==="
+          grep -n -A5 "SDL_VERSIONNUM" \
+            "$EMSDK/upstream/emscripten/cache/sysroot/include/SDL/SDL_version.h"
+
+          echo "=== Emscripten SDL port ==="
+          grep -n "version" \
+            "$EMSDK/upstream/emscripten/tools/ports/sdl2/sdl2.py" 2>/dev/null | head -30 || true
+
           emcmake cmake .. \
           -DCMAKE_BUILD_TYPE=Release \
           -DBUILD_SHARED_LIBS=OFF \
