@@ -254,7 +254,7 @@ jobs:
             -DOPENGLES2_LIBRARY="$EMSDK/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libGL.a" \
             -DEGL_LIBRARY="$EMSDK/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libEGL.a"
 
-          cmake --build irrlicht-src/build --parallel
+          cmake --build . --parallel
 
           cd ../..
           mkdir -p irrlicht/include irrlicht/lib
