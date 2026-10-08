@@ -256,6 +256,8 @@ jobs:
 
           cmake --build . --parallel
 
+          find . -name pnglibconf.h -print
+
           cd ../..
           mkdir -p irrlicht/include irrlicht/lib
           cp -a irrlicht-src/include/* irrlicht/include/
