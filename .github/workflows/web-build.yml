@@ -122,14 +122,16 @@ jobs:
           fi
 
           echo "Gefunden: $PNGCONF"
-          cp "$PNGCONF" "$GITHUB_WORKSPACE/libpng/include/pnglibconf.h"
-
+          cp "$(pwd)/pnglibconf.h" "$GITHUB_WORKSPACE/libpng/include/pnglibconf.h"
           cd ../..
           mkdir -p "$GITHUB_WORKSPACE/libpng/include"
           cp pnglibconf.h "$GITHUB_WORKSPACE/libpng/include/pnglibconf.h"
 
           cp -a libpng-src/*.h libpng/include/pnglibconf.h
           cp libpng-src/build/libpng18.a libpng/lib/
+
+          mkdir -p "$GITHUB_WORKSPACE/libpng/lib"
+          cp "$(pwd)/libpng18.a" "$GITHUB_WORKSPACE/libpng/lib/libpng18.a"
 
       - name: Build Zstd for WebAssembly
         run: |
