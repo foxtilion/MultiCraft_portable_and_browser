@@ -112,6 +112,18 @@ jobs:
 
           emmake cmake --build . --parallel
 
+          mkdir -p "$GITHUB_WORKSPACE/libpng/include"
+
+          PNGCONF=$(find . -name pnglibconf.h -type f | head -n 1)
+
+          if [ -z "$PNGCONF" ]; then
+            echo "ERROR: pnglibconf.h wurde nicht gefunden!"
+            exit 1
+          fi
+
+          echo "Gefunden: $PNGCONF"
+          cp "$PNGCONF" "$GITHUB_WORKSPACE/libpng/include/pnglibconf.h"
+
           cd ../..
           mkdir -p "$GITHUB_WORKSPACE/libpng/include"
           cp pnglibconf.h "$GITHUB_WORKSPACE/libpng/include/pnglibconf.h"
