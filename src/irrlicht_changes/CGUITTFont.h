@@ -481,6 +481,8 @@ namespace gui
 			video::IVideoDriver* Driver = nullptr;
 			std::vector<io::path> filenames;
 			std::vector<FT_Face> tt_faces;
+
+			mutable std::map<core::stringw, std::vector<ShapedRun>> shaped_cache[2];
 			std::vector<int> tt_offsets;
 			FT_Size_Metrics font_metrics;
 			FT_Int32 load_flags = 0;
@@ -504,6 +506,14 @@ namespace gui
 			u32 max_font_height = 0;
 			f32 density = 1.0f;
 	};
+
+//! Same as CGUITTFont::getTotalDimension(), for a font of any type
+inline core::dimension2d<u32> getTotalDimension(IGUIFont *font, const wchar_t *text)
+{
+	if (font && font->getType() == EGFT_CUSTOM)
+		return static_cast<CGUITTFont *>(font)->getTotalDimension(text);
+	return font ? font->getDimension(text) : core::dimension2d<u32>();
+}
 
 } // end namespace gui
 } // end namespace irr
