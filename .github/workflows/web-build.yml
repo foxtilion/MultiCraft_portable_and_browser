@@ -115,7 +115,7 @@ jobs:
           cd ../..
           mkdir -p libpng/include libpng/lib
 
-          cp -a libpng-src/*.h libpng/include/
+          cp -a libpng-src/*.h libpng/include/pnglibconf.h
           cp libpng-src/build/libpng18.a libpng/lib/
 
       - name: Build Zstd for WebAssembly
