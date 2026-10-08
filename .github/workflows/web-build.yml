@@ -113,7 +113,8 @@ jobs:
           emmake cmake --build . --parallel
 
           cd ../..
-          mkdir -p libpng/include libpng/lib
+          mkdir -p "$GITHUB_WORKSPACE/libpng/include"
+          cp pnglibconf.h "$GITHUB_WORKSPACE/libpng/include/pnglibconf.h"
 
           cp -a libpng-src/*.h libpng/include/pnglibconf.h
           cp libpng-src/build/libpng18.a libpng/lib/
