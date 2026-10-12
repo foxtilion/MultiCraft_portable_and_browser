@@ -111,10 +111,7 @@ jobs:
             -DZLIB_INCLUDE_DIR="$GITHUB_WORKSPACE/zlib/include"
 
           emmake cmake --build . --parallel
-
           mkdir -p "$GITHUB_WORKSPACE/libpng/include"
-
-          PNGCONF=$(find . -name pnglibconf.h -type f | head -n 1)
 
           if [ -z "$PNGCONF" ]; then
             echo "ERROR: pnglibconf.h wurde nicht gefunden!"
@@ -270,8 +267,6 @@ jobs:
             -DEGL_LIBRARY="$EMSDK/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libEGL.a"
 
           cmake --build . --parallel
-
-          find . -name pnglibconf.h -print
 
           cd ../..
           mkdir -p irrlicht/include irrlicht/lib
