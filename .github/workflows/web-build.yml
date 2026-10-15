@@ -144,7 +144,8 @@ jobs:
 
       - name: Build Irrlicht for WebAssembly
         run: |
-          git clone --depth 1 --single-branch --verbose https://github.com/minetest/irrlicht.git irrlicht-src
+          git clone --depth 1 --single-branch --verbose \
+          https://github.com/minetest/irrlicht.git irrlicht-src
 
           echo "Checking dependencies:"
           ls -l "$GITHUB_WORKSPACE/zlib/lib/libz.a"
